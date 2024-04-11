@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Streaming</title>
+    <link rel="stylesheet" href="fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <!-- https://fonts.google.com/ -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/templatemo-video-catalog.css">
+</head>
+
+<body>
+	<div class="tm-page-wrap mx-auto">
+		<div class="position-relative">
+			<div class="potition-absolute tm-site-header">
+				<div class="container-fluid position-relative">
+					<div class="row">						
+                        <div class="col-7 col-md-4">
+                            <a href="/" class="tm-bg-black text-center tm-logo-container">
+                                <i class="fas fa-video tm-site-logo mb-3"></i>
+                                <h1 class="tm-site-name">Games Streaming</h1>
+                            </a>
+                        </div>
+                        <div class="col-5 col-md-8 ml-auto mr-0">
+                            <div class="tm-site-nav">
+                                <nav class="navbar navbar-expand-lg mr-0 ml-auto" id="tm-main-nav">
+                                    <button class="navbar-toggler tm-bg-black py-2 px-3 mr-0 ml-auto collapsed" type="button"
+                                        data-toggle="collapse" data-target="#navbar-nav" aria-controls="navbar-nav"
+                                        aria-expanded="false" aria-label="Toggle navigation">
+                                        <span>
+                                            <i class="fas fa-bars tm-menu-closed-icon"></i>
+                                            <i class="fas fa-times tm-menu-opened-icon"></i>
+                                        </span>
+                                    </button>
+                                    <div class="collapse navbar-collapse tm-nav" id="navbar-nav">
+                                        <ul class="navbar-nav text-uppercase">
+                                            <li class="nav-item">
+                                                <a class="nav-link tm-nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link tm-nav-link" href="HealthFitnessVideoGallery">Fitness Videos</a>
+                                            </li>
+                                        
+                                        <% if(session.user){ %>
+                                          <li class="nav-item">
+                                            <a class="nav-link tm-nav-link" href="logout">Logout</a>
+                                        </li>
+                                        <% } else { %>
+                                          <li class="nav-item">
+                                            <a class="nav-link tm-nav-link" href="login">Login</a>
+                                        </li>
+                                        <% } %>
+                                        </ul>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</div>
+			<div class="tm-welcome-container tm-fixed-header tm-fixed-header-1">
+				<div class="text-center">
+					<p class="pt-5 px-3 tm-welcome-text tm-welcome-text-2 mb-1 text-white mx-auto">Health Fitness videos</p>                	
+				</div>                
+            </div>
+
+			<!-- Header image -->
+            <div id="tm-fixed-header-bg"></div> 
+		</div>
+
+		<!-- Page content -->
+		<div class="container-fluid">
+			<div class="mx-auto tm-content-container">
+				<main>
+					<% if(data.length>0){
+						var dataid=data[0].id;
+						
+					  %>
+					<div class="row mb-5 pb-4">
+						<div class="col-12">
+							<!-- Video player 1422x800 -->
+							<video width="1422" height="800" controls autoplay>
+							  <source src="<%= data[0].path %>" type="video/mp4">							  
+							Your browser does not support the video tag.
+							</video>
+							<h4><%= data[0].name %></h4>
+						</div>
+					</div>
+					<%
+              }
+              %>
+			  <% if(session.user) { %>
+					<div class="row mb-5 pb-5">
+						<div class="col-xl-8 col-lg-7">
+							<form id="comment" method="post" action="#">
+                                <table>
+                                    <tr>
+                                        <td><input type="email" class="form-control" value="<%=session.user %>" placeholder="Enter Email" id='email' name="email" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" class="form-control" placeholder="Add Comment" id='comment' name="comment" />
+                                        <input type="hidden" class="form-control" value="<%= dataid %>" name="vid"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><select name="rate">
+                                            <option value="1">1 Star</option>
+                                            <option value="2">2 Star</option>
+                                            <option value="3">3 Star</option>
+                                            <option value="4">4 Star</option>
+                                            <option value="5">5 Star</option>
+                                        </select></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="submit" class="btn btn-primary" name="addComment" value="Add Comment" /></td>
+                                    </tr>
+                                   
+                                </table>
+                              </form>
+						</div>
+						<% } %>
+						<% if(review_data.length>0){
+							for(var i=0; i<review_data.length; i++){
+						  %>
+						
+						  <div class="col-xl-12 col-lg-12">
+							<!-- Video description -->
+							<div class="tm-video-description-box">
+								<p class="mb-1">Name : <%= review_data[i].name %></p>
+								<p class="mb-1">Comment : <%= review_data[i].review %></p>
+								<p class="mb-1">Rate : <%= review_data[i].rate %> Star</p>	
+							</div>							
+						</div>
+                        <hr>
+						<%
+                    }
+                  }
+                  %>  
+
+					</div>
+					
+					
+				</main>
+
+				<footer class="row pt-5">
+                    <div class="col-12">
+                      <p class="text-right">Online Game Videos</p>
+                    </div>
+                </footer>
+			</div> <!-- .tm-content-container -->
+		</div>
+	</div>
+
+	<script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+    	$(document).ready(function() {
+    		$('.tm-likes-box').click(function(e) {
+    			e.preventDefault();
+    			$(this).toggleClass('tm-liked');
+
+    			if($(this).hasClass('tm-liked')) {
+    				$('#tm-likes-count').html('486 likes');
+    			} else {
+    				$('#tm-likes-count').html('485 likes');
+    			}
+    		});
+    	});
+    </script>
+</body>
+</html>
